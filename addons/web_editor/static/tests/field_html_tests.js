@@ -277,7 +277,7 @@ QUnit.module('web_editor', {}, function () {
         });
 
         QUnit.test('colorpicker', async function (assert) {
-            assert.expect(6);
+            assert.expect(10);
 
             var form = await testUtils.createView({
                 View: FormView,
@@ -308,9 +308,24 @@ QUnit.module('web_editor', {}, function () {
                 const openingProm = new Promise(resolve => {
                     $colorpicker.one('shown.bs.dropdown', () => resolve());
                 });
-                await testUtils.dom.click($colorpicker.find('button:first'));
+                await testUtils.dom.click($colorpicker.find('.dropdown-toggle:first'));
                 return openingProm;
             }
+
+            await new Promise(resolve => setTimeout(resolve, 50));
+
+            await openColorpicker('#toolbar .note-back-color-preview');
+            assert.ok($('.note-back-color-preview').hasClass('show'),
+                "should display the color picker");
+
+            // Test that toolbar and colorpicker are hidden after bluring the toolbar.
+            Wysiwyg.setRange(pText, 1, pText, 1);
+            await new Promise(resolve => setTimeout(resolve, 50));
+            assert.ok(document.querySelector('#toolbar').style.visibility === 'hidden', "toolbar should be hidden");
+            assert.containsNone($, ".dropdown-menu.show", "all dropdowns should be closed");
+
+            Wysiwyg.setRange(pText, 1, pText, 10);
+            await new Promise(resolve => setTimeout(resolve, 50));
 
             await openColorpicker('#toolbar .note-back-color-preview');
             assert.ok($('.note-back-color-preview').hasClass('show'),
@@ -327,10 +342,10 @@ QUnit.module('web_editor', {}, function () {
 
             var fontElement = $field.find('.note-editable font')[0];
             var rangeControl = {
-                sc: fontElement,
+                sc: fontElement.firstChild,
                 so: 0,
-                ec: fontElement,
-                eo: 1,
+                ec: fontElement.firstChild,
+                eo: 9,
             };
             range = Wysiwyg.getRange();
             assert.deepEqual(_.pick(range, 'sc', 'so', 'ec', 'eo'), rangeControl,
@@ -347,6 +362,26 @@ QUnit.module('web_editor', {}, function () {
             assert.strictEqual($field.find('.note-editable').html(),
                 '<p>t<font style="background-color: rgb(0, 255, 255);">oto t</font><font class="bg-o-color-3">oto to</font>to</p><p>tata</p>',
                 "should have rendered the field correctly in edit");
+
+            // Select the whole paragraph.
+            const paragraph = $('.note-editable p:first-child')[0];
+            rangeControl = {
+                sc: paragraph.firstChild,
+                so: 0,
+                ec: paragraph.lastChild,
+                eo: 2,
+            };
+            Wysiwyg.setRange(rangeControl.sc, rangeControl.so, rangeControl.ec, rangeControl.eo);
+
+            await openColorpicker('#toolbar .note-fore-color-preview');
+            await $('#toolbar .note-fore-color-preview .o_we_color_btn.bg-o-color-2').mouseenter();
+            await $('#toolbar .note-fore-color-preview .o_we_color_btn.bg-o-color-2').mouseleave();
+            await $('#toolbar .note-fore-color-preview .o_we_color_btn.bg-o-color-3').mouseenter();
+            await $('#toolbar .note-fore-color-preview .o_we_color_btn.bg-o-color-3').mouseleave();
+
+            range = Wysiwyg.getRange();
+            assert.deepEqual(_.pick(range, 'sc', 'so', 'ec', 'eo'), rangeControl,
+                "shouldn't reset the previous selection on quick hovering on colors");
 
             form.destroy();
         });
@@ -711,7 +746,7 @@ QUnit.module('web_editor', {}, function () {
             $('.modal .tab-content .tab-pane').removeClass('fade'); // to be sync in test
             const $labelInputField = $('input#o_link_dialog_label_input');
             const $linkPreview = $('a#link-preview');
-            assert.strictEqual($labelInputField.val().replace(/\u200B/g, ''), 'This website',
+            assert.strictEqual($labelInputField.val(), 'This website',
                 "The label input field should match the link's content");
             assert.strictEqual($linkPreview.text().replace(/\u200B/g, ''), 'This website',
                 "Link label in preview should match label input field");

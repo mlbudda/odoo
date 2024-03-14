@@ -419,7 +419,7 @@ class AccountMove(models.Model):
         :return (datetime.date):
         """
         lock_dates = self._get_violated_lock_dates(invoice_date, has_tax)
-        today = fields.Date.today()
+        today = fields.Date.context_today(self)
         highest_name = self.highest_name or self._get_last_sequence(relaxed=True, lock=False)
         number_reset = self._deduce_sequence_number_reset(highest_name)
         if lock_dates:
@@ -469,8 +469,9 @@ class AccountMove(models.Model):
             accounting_date = self.invoice_date
             if not self.is_sale_document(include_receipts=True):
                 accounting_date = self._get_accounting_date(self.invoice_date, self._affect_tax_report())
-            if accounting_date != self.date:
-                self.date = accounting_date
+            if self._context.get('force_onchange_currency') or accounting_date != self.date:
+                if accounting_date != self.date:
+                    self.date = accounting_date
                 self._onchange_currency()
             else:
                 self._onchange_recompute_dynamic_lines()
@@ -2809,7 +2810,7 @@ class AccountMove(models.Model):
                 'credit': balance < 0.0 and -balance or 0.0,
             })
 
-            if not is_refund or self.tax_cash_basis_origin_move_id or self._context.get('reverse_move_type'):
+            if not is_refund or self.tax_cash_basis_origin_move_id or self._context.get('reverse_move_type') or self.move_type == 'entry':
                 # We don't map tax repartition for non-refund operations, for cash basis entries,
                 # nor when reversing the move_type
                 # Indeed, cancelling a cash basis entry usually happens when unreconciling and invoice,
@@ -3114,7 +3115,7 @@ class AccountMove(models.Model):
             if not move.invoice_date:
                 if move.is_sale_document(include_receipts=True):
                     move.invoice_date = fields.Date.context_today(self)
-                    move.with_context(check_move_validity=False)._onchange_invoice_date()
+                    move.with_context(check_move_validity=False, force_onchange_currency=True)._onchange_invoice_date()
                 elif move.is_purchase_document(include_receipts=True):
                     raise UserError(_("The Bill/Refund date is required to validate this document."))
 
@@ -3838,7 +3839,7 @@ class AccountMoveLine(models.Model):
         help="Tags assigned to this line by the tax creating it, if any. It determines its impact on financial reports.", tracking=True)
     tax_audit = fields.Char(string="Tax Audit String", compute="_compute_tax_audit", store=True,
         help="Computed field, listing the tax grids impacted by this line, and the amount it applies to each of them.")
-    tax_tag_invert = fields.Boolean(string="Invert Tags", compute='_compute_tax_tag_invert', store=True, readonly=False,
+    tax_tag_invert = fields.Boolean(string="Invert Tags", compute='_compute_tax_tag_invert', store=True, readonly=False, copy=False,
         help="Technical field. True if the balance of this move line needs to be "
              "inverted when computing its total for each tag (for sales invoices, for example).")
 
@@ -4565,6 +4566,9 @@ class AccountMoveLine(models.Model):
                     tax_type = record.tax_ids[0].type_tax_use
                     is_refund = (tax_type == 'sale' and record.debit) or (tax_type == 'purchase' and record.credit)
 
+                if record.tax_ids and record.move_id.reversed_entry_id:
+                    is_refund = not is_refund
+
                 record.tax_tag_invert = (tax_type == 'purchase' and is_refund) or (tax_type == 'sale' and not is_refund)
 
             else:
@@ -4616,10 +4620,15 @@ class AccountMoveLine(models.Model):
             if account in (journal.default_account_id, journal.suspense_account_id):
                 continue
 
-            is_account_control_ok = not journal.account_control_ids or account in journal.account_control_ids
-            is_type_control_ok = not journal.type_control_ids or account.user_type_id in journal.type_control_ids
+            failed_check = False
+            if journal.type_control_ids or journal.account_control_ids:
+                failed_check = True
+                if journal.type_control_ids:
+                    failed_check = account.user_type_id not in journal.type_control_ids
+                if failed_check and journal.account_control_ids:
+                    failed_check = account not in journal.account_control_ids
 
-            if not is_account_control_ok or not is_type_control_ok:
+            if failed_check:
                 raise UserError(_("You cannot use this account (%s) in this journal, check the section 'Control-Access' under "
                                   "tab 'Advanced Settings' on the related journal.", account.display_name))
 
@@ -4742,6 +4751,10 @@ class AccountMoveLine(models.Model):
                 })
             else:
                 vals['amount_currency'] = vals.get('amount_currency', 0.0)
+                if not move.is_invoice(include_receipts=True) and vals.get('debit') is False and vals.get('credit') is False:
+                    vals['balance'] = move.currency_id._convert(vals['amount_currency'], move.company_id.currency_id, move.company_id, move.date)
+                    vals['debit'] = vals['balance'] if vals['balance'] > 0.0 else 0.0
+                    vals['credit'] = -vals['balance'] if vals['balance'] < 0.0 else 0.0
 
             if move.is_invoice(include_receipts=True):
                 currency = move.currency_id

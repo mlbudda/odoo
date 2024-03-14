@@ -628,11 +628,6 @@ class ProductProduct(models.Model):
             debit_account_id = product_accounts[product.id]['stock_valuation'].id
             credit_account_id = product_accounts[product.id]['stock_input'].id
             value = out_stock_valuation_layer.value
-            if out_stock_valuation_layer.currency_id.compare_amounts(value, 0) < 0:
-                # Swap accounts makes a negative value in accounting
-                debit_account_id = product_accounts[product.id]['stock_output'].id
-                credit_account_id = product_accounts[product.id]['stock_valuation'].id
-
             move_vals = {
                 'journal_id': product_accounts[product.id]['stock_journal'].id,
                 'company_id': self.env.company.id,
@@ -817,6 +812,8 @@ class ProductCategory(models.Model):
                 out_stock_valuation_layers = SVL.sudo().create(out_svl_vals_list)
                 if product_category.property_valuation == 'real_time':
                     move_vals_list += Product._svl_empty_stock_am(out_stock_valuation_layers)
+                for svl in out_stock_valuation_layers:
+                    svl.product_id.with_context(disable_auto_svl=True).standard_price = svl.unit_cost
                 impacted_categories[product_category] = (products, description, products_orig_quantity_svl)
 
         res = super(ProductCategory, self).write(vals)

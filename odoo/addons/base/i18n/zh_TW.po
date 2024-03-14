@@ -8,7 +8,7 @@
 # 敬雲 林 <chingyun@yuanchih-consult.com>, 2023
 # Martin Trigaux, 2023
 # Wil Odoo, 2023
-# Tony Ng, 2023
+# Tony Ng, 2024
 # 
 msgid ""
 msgstr ""
@@ -16,7 +16,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-24 09:03+0000\n"
 "PO-Revision-Date: 2021-09-14 12:18+0000\n"
-"Last-Translator: Tony Ng, 2023\n"
+"Last-Translator: Tony Ng, 2024\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/odoo/teams/41243/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2504,43 +2504,43 @@ msgid ""
 "This module is compatible with base_vat module in order to be able to validate VAT numbers for each country that have or not have the possibility to manage multiple identification types.\n"
 msgstr ""
 "\n"
-"Add a new model named \"Identification Type\" that extend the vat field functionality in the partner and let the user to identify (an eventually invoice) to contacts not only with their fiscal tax ID (VAT) but with other types of identifications like national document, passport, foreign ID, etc. With this module installed you will see now in the partner form view two fields:\n"
+"加入「身份識別類型」新模型，它擴展了合作夥伴增值稅欄位的功能，讓用戶不僅可使用他們的財政稅務編號 (VAT)，還可使用其他類型的資料作聯絡人身份識別（及最終用作開立發票給對方），例如國家文件、護照、外國身份證等。安裝此模組後，你現在會在合作夥伴表單檢視中看見兩個欄位：\n"
 "\n"
-"* Identification Type\n"
-"* Identification Number\n"
+"* 識別類型\n"
+"* 識別資料號碼\n"
 "\n"
-"This behavior is a common requirement for some latam countries like Argentina and Chile. If your localization has this requirements then you need to depend on this module and define in your localization module the identifications types that are used in your country. Generally these types of identifications are defined by the government authorities that regulate the fiscal operations. For example:\n"
+"這種行為是一些拉丁美洲國家（如阿根廷和智利）的普遍要求。如果你的本地化工作有此要求，你便需要依賴此模組，並在你的本地化模組中定義你所在國家/地區會使用的身份識別類型。通常，這類的識別方式由監管財政運作的政府當局定義。例如：\n"
 "\n"
-"* AFIP in Argentina defines DNI, CUIT (vat for legal entities), CUIL (vat for natural person), and another 80 valid identification types.\n"
+"* 阿根廷的 AFIP 定義了 DNI、CUIT（法人增值稅）、CUIL（自然人增值稅）和其他 80 種有效身份證明類型。\n"
 "\n"
-"Each identification holds this information:\n"
+"每種識別類型都包含以下資訊：\n"
 "\n"
-"* name: short name of the identification\n"
-"* description: could be the same short name or a long name\n"
-"* country_id: the country where this identification belongs\n"
-"* is_vat: identify this record as the corresponding VAT for the specific country.\n"
-"* sequence: let us to sort the identification types depending on the ones that are most used.\n"
-"* active: we can activate/inactivate identifications to make it easier to our customers\n"
+"* name：識別方式的簡短名稱\n"
+"* description：可以是相同的簡短名稱，或較長的名稱\n"
+"* country_id：識別類型所屬國家/地區\n"
+"* is_vat：標示此識別方式是對應所屬國家/地區的增值稅。\n"
+"* sequence：用作根據常用次序為識別類型排序。\n"
+"* active：可以啟用/停用身份識別類型，方便客戶操作\n"
 "\n"
-"In order to make this module compatible for multi-company environments where we have companies that does not need/support this requirement, we have added generic identification types and generic rules to manage the contact information and make it transparent for the user when only use the VAT as we formerly know.\n"
+"為使這個模組兼容有公司不需要/不支援此要求的多公司環境，我們加入了通用識別類型和通用規則，用作管理聯絡資料，當只使用我們以前知道的增值稅時，使其對用戶透明。\n"
 "\n"
-"Generic Identifications:\n"
+"通用識別方式：\n"
 "\n"
-"* VAT: The Fiscal Tax Identification or VAT number, by default will be selected as identification type so the user will only need to add the related vat number.\n"
-"* Passport\n"
-"* Foreign ID (Foreign National Document)\n"
+"* 增值稅：預設情況下將選擇財政稅務識別編號或增值稅稅務編號作為識別類型，用戶只需加入相關增值稅編號。\n"
+"* 護照\n"
+"* 外國身份證（外國國家文件）\n"
 "\n"
-"Rules when creating a new partner: We will only see the identification types that are meaningful, taking into account these rules:\n"
+"建立新合作夥伴時的規則：考慮到這些規則，我們只會看到有意義的識別類型：\n"
 "\n"
-"* If the partner have not country address set: Will show the generic identification types plus the ones defined in the partner's related company country (If the partner has not specific company then will show the identification types related to the current user company)\n"
+"* 如果合作夥伴沒有設定國家/地區地址：將顯示通用識別類型加上合作夥伴相關公司的國家/地區的識別類型（如果合作夥伴沒有特定公司，則將顯示與目前用戶公司相關的識別類型）\n"
 "\n"
-"* If the partner has country address : will show the generic identification types plus the ones defined for the country of the partner.\n"
+"* 如果合作夥伴有國家/地區地址：將顯示通用識別類型以及合作夥伴所在國家/地區的識別類型。\n"
 "\n"
-"When creating a new company, will set to the related partner always the related country is_vat identification type.\n"
+"建立新公司時，預設會為相關合作夥伴設置相關國家/地區的 is_vat 識別類型。\n"
 "\n"
-"All the defined identification types can be reviewed and activate/deactivate in \"Contacts / Configuration / Identification Type\" menu.\n"
+"所有定義的識別類型都可在“聯絡人/設定/識別類型”選單中查看及啟用/停用。\n"
 "\n"
-"This module is compatible with base_vat module in order to be able to validate VAT numbers for each country that have or not have the possibility to manage multiple identification types.\n"
+"此模組與 base_vat 模組兼容，以便為每個可以或不可以管理多種識別類型的國家/地區，驗證增值稅編號。\n"
 
 #. module: base
 #: model:ir.module.module,description:base.module_website_sale_delivery
@@ -2976,10 +2976,10 @@ msgid ""
 "invoices from picking, the system is able to add and compute the shipping line.\n"
 msgstr ""
 "\n"
-"允許增加發貨方式在銷售訂單和揀貨.\n"
+"允許增加發貨方式在銷售訂單和提貨.\n"
 "============================\n"
 "您可以定義自己的承運人的價格. 當建立\n"
-"揀貨的憑單，該系統能夠增加和計算運輸行.\n"
+"提貨的憑單，該系統能夠增加和計算運輸行.\n"
 
 #. module: base
 #: model:ir.module.module,description:base.module_mrp_account_enterprise
@@ -5315,26 +5315,26 @@ msgid ""
 "    "
 msgstr ""
 "\n"
-"Includes the following data for the Chinese localization\n"
+"包括以下中文本地化數據\n"
 "========================================================\n"
 "\n"
-"Account Type/科目类型\n"
+"賬戶類型\n"
 "\n"
-"State Data/省份数据\n"
+"省份數據\n"
 "\n"
-"    科目类型\\会计科目表模板\\增值税\\辅助核算类别\\管理会计凭证簿\\财务会计凭证簿\n"
+"    科目/賬戶類型 / 會計科目表/賬目總表範本 / 增值稅 / 輔助核算類別 / 管理會計憑證簿 / 財務會計憑證簿\n"
 "\n"
-"    添加中文省份数据\n"
+"    加入中文省份數據\n"
 "\n"
-"    增加小企业会计科目表\n"
+"    增加小企業會計科目表\n"
 "\n"
-"    修改小企业会计科目表\n"
+"    修改小企業會計科目表\n"
 "\n"
-"    修改小企业会计税率\n"
+"    修改小企業會計稅率\n"
 "\n"
-"We added the option to print a voucher which will also \n"
-"print the amount in words (special Chinese characters for numbers)\n"
-"correctly when the cn2an library is installed. (e.g. with pip3 install cn2an)\n"
+"我們新增了列印憑證的選項，\n"
+"若有安裝 cn2an 程式庫，該選項會\n"
+"列印正確的文字金額（記數的特殊中文字）。（例如使用 pip3 安裝 cn2an）\n"
 "    "
 
 #. module: base
@@ -6656,11 +6656,11 @@ msgid ""
 "    "
 msgstr ""
 "\n"
-"巴拿马会计科目表和税收本地化.\n"
+"Panamenian accounting chart and tax localization.\n"
 "\n"
-"计划承诺 panameño e impuestos de acuerdo a disposiciones vigentes\n"
+"Plan contable panameño e impuestos de acuerdo a disposiciones vigentes\n"
 "\n"
-"Con la Colaboración de \n"
+"Con la Colaboración de\n"
 "- AHMNET CORP http://www.ahmnet.com\n"
 "\n"
 "    "
@@ -8502,9 +8502,10 @@ msgid ""
 "    "
 msgstr ""
 "\n"
-" 此模組會為「事件」管理系統增加條碼掃瞄支援.\n"
-" 為每位與會者建立一個條碼，並將其印在徽章上. 掃瞄時，\n"
-" 會確認報名. "
+"此模組為活動管理系統新增條碼掃瞄支援功能。\n"
+"系統會為每位參加者產生一個條碼，並列印在識別證上。掃瞄該條碼後，\n"
+"登記即獲確認。\n"
+"    "
 
 #. module: base
 #: model:ir.module.module,description:base.module_sale_margin
@@ -9738,12 +9739,12 @@ msgstr " 在潛在客戶表單檢視上增加一個統計按鈕以存取他們�
 #. module: base
 #: model:ir.module.module,summary:base.module_website_sale_delivery_mondialrelay
 msgid " Let's choose Point Relais® on your ecommerce "
-msgstr ""
+msgstr " 讓我們在你的電子商務中選擇 Point Relais® "
 
 #. module: base
 #: model:ir.module.module,summary:base.module_delivery_mondialrelay
 msgid " Let's choose a Point Relais® as shipping address "
-msgstr " Let's choose a Point Relais® as shipping address "
+msgstr " 讓我們選擇 Point Relais® 作為送貨地址"
 
 #. module: base
 #: model:ir.module.module,description:base.module_sale_purchase_inter_company_rules
@@ -9868,7 +9869,7 @@ msgstr "%(xmlid)s 是 %(xmlid_model)s 類型，應為 ir.actions.actions 的子�
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.res_lang_form
 msgid "%A - Full day of the week."
-msgstr "%A - 一周中的全天."
+msgstr "%A - 星期幾全寫。"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.res_lang_form
@@ -9903,7 +9904,7 @@ msgstr "%Y - 4位數的年份. \""
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.res_lang_form
 msgid "%a - Abbreviated day of the week."
-msgstr "%a - 星期幾的縮寫."
+msgstr "%a - 星期幾縮寫。"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.res_lang_form
@@ -9949,7 +9950,7 @@ msgstr "%s 每單位"
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.res_lang_form
 msgid "%w - Day of the week number [0(Sunday),6].\""
-msgstr "%w - 星期 [0(Sunday),6].\""
+msgstr "%w - 星期幾數字 [0(星期日),6]。\""
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.res_lang_form
@@ -10392,9 +10393,9 @@ msgid ""
 "                                <span colspan=\"2\">Week of the Year: %(woy)s</span>\n"
 "                                <span colspan=\"2\">Day of the Week (0:Monday): %(weekday)s</span>"
 msgstr ""
-"<span colspan=\"2\">某年某日: %(doy)s</span>\n"
-"                                <span colspan=\"2\">某年某周: %(woy)s</span>\n"
-"                                <span colspan=\"2\">某周某天 (0:週一): %(weekday)s</span>"
+"<span colspan=\"2\">年內第幾天：%(doy)s</span>\n"
+"                                <span colspan=\"2\">年內第幾週：%(woy)s</span>\n"
+"                                <span colspan=\"2\">星期幾（0 = 週一）：%(weekday)s</span>"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.sequence_view
@@ -11994,7 +11995,7 @@ msgstr "進行財務整合所需的一切"
 #. module: base
 #: model:ir.module.module,summary:base.module_hr_holidays
 msgid "Allocate PTOs and follow leaves requests"
-msgstr "分配 PTO 並遵循休假請求"
+msgstr "分配有薪假，並追蹤休假申請"
 
 #. module: base
 #: model:ir.module.module,summary:base.module_helpdesk_fsm
@@ -12300,18 +12301,18 @@ msgstr "預約"
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_hr_appraisal_skills
 msgid "Appraisal - Skills"
-msgstr "審批 - 技能"
+msgstr "表現評核 - 技能"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_hr_appraisal_survey
 msgid "Appraisal - Survey"
-msgstr "審批 - 問卷"
+msgstr "表現評核 - 問卷"
 
 #. module: base
 #: model:ir.module.category,name:base.module_category_human_resources_appraisals
 #: model:ir.module.module,shortdesc:base.module_hr_appraisal
 msgid "Appraisals"
-msgstr "評價"
+msgstr "表現評核"
 
 #. module: base
 #: model:ir.module.category,name:base.module_category_human_resources_approvals
@@ -12366,7 +12367,7 @@ msgstr "Arch 檔案名稱"
 #. module: base
 #: model:ir.model.fields,field_description:base.field_reset_view_arch_wizard__arch_to_compare
 msgid "Arch To Compare To"
-msgstr ""
+msgstr "要比較的架構"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_view_form
@@ -13189,7 +13190,7 @@ msgstr "Belgium - Payroll - December Slip"
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_l10n_be_hr_payroll_fleet
 msgid "Belgium - Payroll - Fleet"
-msgstr "比利時 - 薪資表 - 車隊管理"
+msgstr "比利時 - 薪酬管理 - 車隊"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_l10n_be_hr_payroll_account
@@ -13582,7 +13583,7 @@ msgstr "客戶關係管理"
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_data_merge_crm
 msgid "CRM Deduplication"
-msgstr "客戶關係管理重複資料刪除"
+msgstr "消除重複客戶關係"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_gamification_sale_crm
@@ -15380,7 +15381,7 @@ msgstr "貨幣符號，列印金額時使用."
 #: code:addons/base/models/ir_ui_view.py:0
 #, python-format
 msgid "Current Arch"
-msgstr ""
+msgstr "當前架構"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_base_partner_merge_automatic_wizard__current_line_id
@@ -15524,7 +15525,7 @@ msgstr "DLE 26 110 x 220 公厘"
 #: code:addons/base/models/ir_qweb_fields.py:0
 #, python-format
 msgid "Dash"
-msgstr ""
+msgstr "Dash"
 
 #. module: base
 #: model:ir.module.module,summary:base.module_fleet_dashboard
@@ -15712,12 +15713,12 @@ msgstr "Deco Addict 為木材行業帶來誠實和認真，同時幫助客戶處
 #. module: base
 #: model:ir.actions.act_window,name:base.action_partner_deduplicate
 msgid "Deduplicate Contacts"
-msgstr "刪除重複聯繫人"
+msgstr "消除重複聯絡人"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.base_partner_merge_automatic_wizard_form
 msgid "Deduplicate the other Contacts"
-msgstr "刪除重複其他聯繫人"
+msgstr "消除重複其他聯絡人"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_users_form
@@ -17883,7 +17884,7 @@ msgstr "芬蘭本地化"
 #. module: base
 #: model:ir.model.fields,field_description:base.field_res_lang__week_start
 msgid "First Day of Week"
-msgstr "每周開始於"
+msgstr "星期起首日"
 
 #. module: base
 #: model:ir.module.module,description:base.module_l10n_mx_reports_closing
@@ -18130,7 +18131,7 @@ msgstr "法屬圭亞那"
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_l10n_fr_hr_payroll
 msgid "French Payroll"
-msgstr "法國薪資表"
+msgstr "法國薪酬管理"
 
 #. module: base
 #: model:res.country,name:base.pf
@@ -19033,7 +19034,7 @@ msgstr ""
 #. module: base
 #: model:ir.module.category,description:base.module_category_human_resources_payroll
 msgid "Helps you manage your payrolls."
-msgstr "幫您管理您的薪資表."
+msgstr "幫助你管理薪酬。"
 
 #. module: base
 #: model:ir.module.category,description:base.module_category_services_project
@@ -19830,7 +19831,7 @@ msgstr "印度 - 庫存報表 (GST)"
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_l10n_in_hr_payroll
 msgid "Indian Payroll"
-msgstr "印度薪資表"
+msgstr "印度薪酬管理"
 
 #. module: base
 #: model:ir.model.fields.selection,name:base.selection__res_partner__company_type__person
@@ -19845,7 +19846,7 @@ msgstr "個人"
 #. module: base
 #: model:res.country,name:base.id
 msgid "Indonesia"
-msgstr "印度尼西亞"
+msgstr "印尼"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_l10n_id_efaktur
@@ -21834,7 +21835,7 @@ msgstr "管理您的文件以簽署合約"
 #. module: base
 #: model:ir.module.module,summary:base.module_hr_payroll
 msgid "Manage your employee payroll records"
-msgstr "管理您的員工薪資表記錄"
+msgstr "管理你的員工薪酬記錄"
 
 #. module: base
 #: model:ir.module.module,summary:base.module_planning
@@ -25980,7 +25981,7 @@ msgstr ""
 "###組織\n"
 "\n"
 "- 高級規劃\n"
-"- 打印徽章\n"
+"- 打印識別證\n"
 "- 自動化跟進電子郵件\n"
 "- 最小/最大容量\n"
 "- 管理課程和資源\n"
@@ -26578,12 +26579,12 @@ msgstr "Paypal收款方"
 #: model:ir.module.category,name:base.module_category_human_resources_payroll
 #: model:ir.module.module,shortdesc:base.module_hr_payroll
 msgid "Payroll"
-msgstr "薪資表"
+msgstr "薪酬管理"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_hr_payroll_account
 msgid "Payroll Accounting"
-msgstr "薪資表會計"
+msgstr "薪酬管理會計"
 
 #. module: base
 #: model:ir.module.category,name:base.module_category_payroll_localization
@@ -26879,7 +26880,7 @@ msgstr "預覽pdf src"
 #: code:addons/base/models/ir_ui_view.py:0
 #, python-format
 msgid "Previous Arch"
-msgstr ""
+msgstr "上一個架構"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_ui_view__arch_prev
@@ -32150,12 +32151,12 @@ msgstr "英國 - 會計報表"
 #: model:ir.module.module,shortdesc:base.module_product_unspsc
 #: model:ir.module.module,summary:base.module_product_unspsc
 msgid "UNSPSC product codes"
-msgstr "UNSPSC product codes"
+msgstr "UNSPSC 產品代碼"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_delivery_ups
 msgid "UPS Shipping (Legacy)"
-msgstr ""
+msgstr "UPS 貨運 (舊)"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_delivery_ups_rest
@@ -32202,7 +32203,7 @@ msgstr "USt"
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_data_merge_utm
 msgid "UTM Deduplication"
-msgstr "UTM 刪除重複資料"
+msgstr "UTM 消除重複"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_utm
@@ -32619,7 +32620,7 @@ msgstr "使用組來組織經常被選擇在一起的國家(例如\"LATAM\"、\"
 #. module: base
 #: model:ir.module.module,summary:base.module_account_tax_python
 msgid "Use python code to define taxes"
-msgstr "使用python程式碼定義税"
+msgstr "使用 Python 程式碼定義稅項"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_sequence__use_date_range
@@ -32758,7 +32759,7 @@ msgstr "使用者:"
 #: code:addons/base/models/ir_rule.py:0
 #, python-format
 msgid "User: %s"
-msgstr "User: %s"
+msgstr "使用者: %s"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_mail_server__smtp_user
@@ -33745,6 +33746,14 @@ msgstr ""
 "請管理員先存檔其關聯使用者.\n"
 "\n"
 "連結的活躍使用者: %(names)s"
+
+#. module: base
+#: code:addons/base/models/res_lang.py:0
+#, python-format
+msgid ""
+"You cannot archive the language in which Odoo was setup as it is used by "
+"automated processes."
+msgstr "您不能將設置 Odoo 時使用的語言存檔，因為自動程序會使用該語言."
 
 #. module: base
 #: code:addons/base/models/res_partner.py:0

@@ -8,9 +8,9 @@
 # Aimée Mendoza Sánchez, 2023
 # Lucia Pacheco, 2023
 # Wil Odoo, 2023
-# Fernanda Alvarez, 2023
 # Iran Villalobos López, 2023
 # Patricia Gutiérrez Capetillo <pagc@odoo.com>, 2023
+# Fernanda Alvarez, 2024
 # 
 msgid ""
 msgstr ""
@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-24 09:03+0000\n"
 "PO-Revision-Date: 2021-09-14 12:18+0000\n"
-"Last-Translator: Patricia Gutiérrez Capetillo <pagc@odoo.com>, 2023\n"
+"Last-Translator: Fernanda Alvarez, 2024\n"
 "Language-Team: Spanish (Mexico) (https://app.transifex.com/odoo/teams/41243/es_MX/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2016,9 +2016,9 @@ msgid ""
 "\n"
 msgstr ""
 "\n"
-"* Agrega un libro de reporte de IVA, que es un requisito legal en Argentina. El libro contiene información detallada del IVA de ventas y compras que se hicieron durante un periodo de tiempo. \n"
-"* Agrega un informe de resumen del IVA que se utiliza para analizar la facturación.\n"
-"* Agrega la funcionalidad de un libro digital de IVA que nos permite generar archivos TXT para importarlos a AFIP, estos son los que implementamos:\n"
+"* Agrega un reporte de libro de IVA, que es un requisito legal en Argentina. El libro incluye información detallada del IVA de las ventas y compras realizadas durante un periodo determinado. \n"
+"* Agrega un reporte de resumen del IVA que se utiliza para analizar la facturación.\n"
+"* Agrega la función de un libro de IVA digital que nos permite generar archivos TXT para importarlos a la AFIP. Los que implementamos son los siguientes:\n"
 "\n"
 "    * LIBRO_IVA_DIGITAL_VENTAS_CBTE\n"
 "    * LIBRO_IVA_DIGITAL_VENTAS_ALICUOTAS\n"
@@ -2026,7 +2026,7 @@ msgstr ""
 "    * LIBRO_IVA_DIGITAL_COMPRAS_ALICUOTAS\n"
 "    * LIBRO_IVA_DIGITAL_IMPORTACION_BIENES_ALICUOTA\n"
 "\n"
-"Documentación oficial AFIP\n"
+"Documentación oficial de la AFIP\n"
 "\n"
 "* Libro de IVA digital - diseño de registros https://www.afip.gob.ar/libro-iva-digital/documentos/libro-iva-digital-diseno-registros.pdf\n"
 "* CITI - diseño de registros (igual que el libro de IVA digital): https://www.afip.gob.ar/comprasyventas/documentos/RegimendeInformaciondeComprasyVentasDisenosdeRegistros1.xls\n"
@@ -3496,22 +3496,24 @@ msgid ""
 "    "
 msgstr ""
 "\n"
-"Sistema belga de registro de pagos en efectivo\n"
+"Caja registradora belga certificada\n"
 "================================\n"
 "\n"
-"Este módulo convierte el módulo de Punto de Venta en un sistema belga de registro de pagos en efectivo calificado.\n"
+"Este módulo convierte el módulo Punto de venta en una caja registradora belga certificada.\n"
 "\n"
-"Más información en:\n"
+"Obtenga más información en:\n"
 " * http://www.systemedecaisseenregistreuse.be/\n"
 " * http://www.geregistreerdkassasysteem.be/\n"
 "\n"
 "Legal\n"
 "-----\n"
-"**El uso de fuentes pos_blackbox_be solo se certifica en odoo.com Plataforma SaaS\n"
-" para la versión 13.0.**\n"
-"Se puede proporcionar una versión ofuscada y certificada de pos_blackbox_be previa \n"
-"solicitud para instalaciones en local.\n"
-"Odoo, S.A. no certificará ni dará soporte a una versión modificada."
+"**El uso de las fuentes pos_blackbox_be solo está certificado en la plataforma SaaS de odoo.com \n"
+"para la versión 13.0.**\n"
+"Contacte a Odoo S.A. antes de instalar el módulo pos_blackbox_be.\n"
+"Es posible proporcionar una versión ofuscada y certificada de pos_blackbox_be bajo \n"
+"solicitud para instalaciones locales.\n"
+"Odoo S.A. no certificará ni dará soporte a una versión modificada.\n"
+" "
 
 #. module: base
 #: model:ir.module.module,description:base.module_l10n_bo
@@ -5361,17 +5363,17 @@ msgid ""
 "    * FBM: Delivery notifications are sent to Amazon for each confirmed picking (partial delivery friendly).\n"
 msgstr ""
 "\n"
-"Importe sus pedidos de Amazon en Odoo y sincronice las entregas\n"
+"Importe sus órdenes de Amazon a Odoo y sincronice las entregas\n"
 "================================================ ==========\n"
 "\n"
-"Características clave\n"
+"Funciones principales\n"
 "------------\n"
-"* Importar pedidos de múltiples cuentas y mercados.\n"
-"* Los pedidos se emparejan con los productos Odoo según su referencia interna (SKU en Amazon).\n"
+"* Las órdenes se importan desde varias cuentas y mercados.\n"
+"* Las órdenes se emparejan con los productos en Odoo según su referencia interna (SKU en Amazon).\n"
 "* Las entregas confirmadas en Odoo se sincronizan en Amazon.\n"
-"* Soporte para Fulfillment by Amazon (FBA) y Fulfillment by Merchant (FBM):\n"
-"    * Logística de Amazon: una ubicación de existencias y los movimientos de existencias permiten supervisar sus existencias en los centros logísticos de Amazon.\n"
-"    * FBM: las notificaciones de entrega se envían a Amazon para cada picking confirmado (entrega parcial amigable).\n"
+"* Compatibilidad con Fulfillment by Amazon (FBA) y Fulfillment by Merchant (FBM):\n"
+"    * FBA: una ubicación de existencias y los movimientos de existencias permiten monitorear sus existencias en los centros logísticos de Amazon.\n"
+"    * FBM: las notificaciones de entrega se envían a Amazon para cada recolección confirmada (es posible realizar entregas parciales).\n"
 
 #. module: base
 #: model:ir.module.module,description:base.module_account_debit_note
@@ -5417,12 +5419,12 @@ msgid ""
 "    "
 msgstr ""
 "\n"
-"Incluye esta información para la localización china\n"
+"Incluye la siguiente información para la localización china\n"
 "========================================================\n"
 "\n"
 "Tipo de cuenta/科目类型\n"
 "\n"
-"Información de estado/省份数据\n"
+"Información del estado/省份数据\n"
 "\n"
 "    科目类型\\会计科目表模板\\增值税\\辅助核算类别\\管理会计凭证簿\\财务会计凭证簿\n"
 "\n"
@@ -5434,10 +5436,12 @@ msgstr ""
 "\n"
 "    修改小企业会计税率\n"
 "\n"
-"Agregamos la opción para imprimir el voucher que también \n"
-"tendrá la cantidad escrita en palabras (caracteres chinos especiales para números).\n"
-"Las palabras estarán escritas correctamente cuando la librería de cn2an se instale (p. ej. con pip3 instale cn2an)\n"
-"    "
+"    增加大企业会计科目表\n"
+"\n"
+"Agregamos la opción para imprimir el vale que también incluirá\n"
+"el importe escrito con letra (caracteres chinos especiales para números).\n"
+"Este importe estará escrito de forma correcta cuando instale la biblioteca cn2an (por ejemplo, con pip3 instale cn2an).\n"
+" "
 
 #. module: base
 #: model:ir.module.module,description:base.module_l10n_cn_city
@@ -6159,23 +6163,24 @@ msgid ""
 "    "
 msgstr ""
 "\n"
-"Configuración mínima de la contabilidad de México.\n"
+"Configuración mínima de la contabilidad para México.\n"
 "============================================\n"
 "\n"
-"Este gráfico de cuentas es una propuesta mínima para poder utilizar OoB, la\n"
-"función de contabilidad de Odoo.\n"
+"Este plan de cuentas es una propuesta mínima para poder utilizar las\n"
+"funciones de contabilidad de Odoo de forma directa.\n"
 "\n"
-"Esto no pretende ser toda la localización de México, sino que son solo los datos\n"
-"mínimos requeridos para empezar de 0 en la localización mexicana.\n"
+"Esto no pretende ser toda la localización de México, sino que solo es la información\n"
+"mínima necesaria para empezar desde cero en la localización mexicana.\n"
 "\n"
-"Este módulo y su contenido se actualizan con frecuencia por parte del equipo de OpenErp-México.\n"
+"El equipo de openerp-méxico actualiza este módulo y su contenido con frecuencia.\n"
 "\n"
 "Con este módulo tendrá:\n"
 "\n"
-"- Gráfico de cuentas mínimo probado en entornos de producción.\n"
-"- Gráfico de impuestos mínimo para cumplir con los requisitos del SAT \n"
+"- Un plan de cuentas mínimo probado en entornos de producción.\n"
+"- Un esquema de impuestos mínimo para cumplir con los requisitos del SAT.\n"
 "\n"
-".._SAT: http://www.sat.gob.mx/"
+".._SAT: http://www.sat.gob.mx/\n"
+" "
 
 #. module: base
 #: model:ir.module.module,description:base.module_analytic
@@ -9371,7 +9376,7 @@ msgid ""
 "This widget allows to display gauges using d3 library.\n"
 msgstr ""
 "\n"
-"Este widget permite mostrar medidores usando la librería d3.\n"
+"Este widget permite mostrar medidores gracias a la biblioteca d3.\n"
 
 #. module: base
 #: model:ir.module.module,description:base.module_documents_hr_holidays
@@ -9952,7 +9957,7 @@ msgstr ""
 #: code:addons/base/models/ir_ui_view.py:0
 #, python-format
 msgid "\"group_by\" value must be a string %(attribute)s=%(value)r"
-msgstr "El valor \"group_by\" debe ser una cadena %(attribute)s = %(value)r"
+msgstr "El valor \"group_by\" debe ser una cadena %(attribute)s=%(value)r"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_res_users__accesses_count
@@ -10545,7 +10550,7 @@ msgstr ""
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.demo_force_install_form
 msgid "<span class=\"text-white text-uppercase\">Danger Zone</span>"
-msgstr "<span class=\"text-white text-uppercase\">Zona de peligro</span>"
+msgstr "<span class=\"text-white text-uppercase\">Advertencia</span>"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.sequence_view
@@ -10556,8 +10561,8 @@ msgid ""
 "                                <span colspan=\"2\">Day: %(day)s</span>"
 msgstr ""
 "<span colspan=\"2\">Año actual con el siglo: %(year)s</span>\n"
-"                                <span colspan=\"2\"> Año actual sin siglo: %(y)s</span>\n"
-"                                <span colspan=\"2\"> Mes: %(month)s</span>\n"
+"                                <span colspan=\"2\">Año actual sin siglo: %(y)s</span>\n"
+"                                <span colspan=\"2\">Mes: %(month)s</span>\n"
 "                                <span colspan=\"2\">Día: %(day)s</span>"
 
 #. module: base
@@ -13266,7 +13271,7 @@ msgstr "Arquitectura de la vista base"
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_base_import
 msgid "Base import"
-msgstr "Importe base"
+msgstr "Importación base"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_base_import_module
@@ -13417,7 +13422,7 @@ msgstr "Bélgica - Reportes contables - SMS"
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_l10n_be_disallowed_expenses
 msgid "Belgium - Disallowed Expenses Data"
-msgstr "Bélgica - Gastos no permitidos"
+msgstr "Bélgica - Gastos rechazados"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_l10n_be_edi
@@ -16025,12 +16030,12 @@ msgstr "Dígitos decimales"
 #: model_terms:ir.ui.view,arch_db:base.view_decimal_precision_form
 #: model_terms:ir.ui.view,arch_db:base.view_decimal_precision_tree
 msgid "Decimal Precision"
-msgstr "Precisión de decimales"
+msgstr "Precisión decimal"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_res_lang__decimal_point
 msgid "Decimal Separator"
-msgstr "Separador de decimales"
+msgstr "Separador decimal"
 
 #. module: base
 #: model:ir.model.fields,help:base.field_res_currency__decimal_places
@@ -16380,7 +16385,7 @@ msgstr "Gastos rechazados"
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_account_disallowed_expenses_fleet
 msgid "Disallowed Expenses on Fleets"
-msgstr "Gastos no permitidos en Flotas"
+msgstr "Gastos rechazados en Flotas"
 
 #. module: base
 #. openerp-web
@@ -18256,7 +18261,7 @@ msgstr "Encuentre registros duplicados y fusiónelos"
 #. module: base
 #: model:ir.module.module,summary:base.module_web_unsplash
 msgid "Find free high-resolution images from Unsplash"
-msgstr "Encuentre imágenes gratuitas de alta resolución desde Unsplash"
+msgstr "Encuentre imágenes gratuitas de alta resolución con Unsplash"
 
 #. module: base
 #: model:ir.model.fields.selection,name:base.selection__base_partner_merge_automatic_wizard__state__finished
@@ -18484,8 +18489,8 @@ msgstr ""
 msgid ""
 "Found multiple matches for value '%s' in field '%%(field)s' (%d matches)"
 msgstr ""
-"Se encontraron múltiples coincidencias para el valor '%s' en el campo '%% "
-"(field)s' (%d coincidencias)"
+"Se encontraron varias coincidencias para el valor '%s' en el campo "
+"'%%(field)s' (%d coincidencias)"
 
 #. module: base
 #: model:res.country,name:base.fr
@@ -19185,7 +19190,7 @@ msgstr "Gamificación en RR. HH."
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_hr_org_chart
 msgid "HR Org Chart"
-msgstr "Gráfico de org. de RR. HH."
+msgstr "Organigrama de RR. HH."
 
 #. module: base
 #: model:res.country,vat_label:base.ca
@@ -22239,12 +22244,12 @@ msgstr "Gestione y publique en una plataforma eLearning"
 #: model:ir.module.module,description:base.module_account_disallowed_expenses
 #: model:ir.module.module,summary:base.module_account_disallowed_expenses
 msgid "Manage disallowed expenses"
-msgstr "Gestione gastos no permitidos"
+msgstr "Gestione gastos rechazados"
 
 #. module: base
 #: model:ir.module.module,summary:base.module_account_disallowed_expenses_fleet
 msgid "Manage disallowed expenses with fleets"
-msgstr "Gestione gastos no permitidos con Flota"
+msgstr "Gestione gastos rechazados con Flota"
 
 #. module: base
 #: model:ir.module.module,summary:base.module_sale_coupon_taxcloud_delivery
@@ -29445,15 +29450,12 @@ msgstr ""
 #: model:ir.module.module,summary:base.module_industry_fsm_sale
 msgid "Schedule and track onsite operations, invoice time and material"
 msgstr ""
-"Programa y da seguimiento a operaciones in situ y el tiempo y materiales a "
-"facturar"
+"Programe y monitoree operaciones presenciales, facture tiempo y materiales"
 
 #. module: base
 #: model:ir.module.module,summary:base.module_industry_fsm
 msgid "Schedule and track onsite operations, time and material"
-msgstr ""
-"Programa y da seguimiento a operaciones in situ, tiempo y materiales de "
-"facturación"
+msgstr "Programe y monitoree operaciones presenciales, tiempo y materiales"
 
 #. module: base
 #: model:ir.module.module,summary:base.module_calendar
@@ -31620,8 +31622,8 @@ msgid ""
 "The path to the main report file (depending on Report Type) or empty if the "
 "content is in another field"
 msgstr ""
-"La ruta al fichero del informe principal (dependiendo del tipo de informe) o"
-" vacío si el contenido es otro campo"
+"La ruta al archivo del reporte principal (según el tipo de reporte) o vacío "
+"si el contenido está en otro campo"
 
 #. module: base
 #: code:addons/base/models/decimal_precision.py:0
@@ -34486,6 +34488,16 @@ msgstr ""
 "Usuarios vinculados activos: %(names)s"
 
 #. module: base
+#: code:addons/base/models/res_lang.py:0
+#, python-format
+msgid ""
+"You cannot archive the language in which Odoo was setup as it is used by "
+"automated processes."
+msgstr ""
+"No puede archivar el idioma en el que configuró Odoo, los procesos "
+"automatizados también lo usan."
+
+#. module: base
 #: code:addons/base/models/res_partner.py:0
 #, python-format
 msgid "You cannot create recursive Partner hierarchies."
@@ -34624,7 +34636,7 @@ msgstr "Tiene que especificar un filtro para su selección."
 #. module: base
 #: model_terms:ir.actions.act_window,help:base.open_module_tree
 msgid "You should try other search criteria."
-msgstr "Debería probar otro criterio de búsqueda."
+msgstr "Intente usar otro criterio de búsqueda."
 
 #. module: base
 #: model_terms:res.company,invoice_terms_html:base.main_company

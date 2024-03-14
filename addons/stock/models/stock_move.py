@@ -838,11 +838,13 @@ class StockMove(models.Model):
         fields = [
             'product_id', 'price_unit', 'procure_method', 'location_id', 'location_dest_id',
             'product_uom', 'restrict_partner_id', 'scrapped', 'origin_returned_move_id',
-            'package_level_id', 'propagate_cancel', 'description_picking', 'date_deadline',
+            'package_level_id', 'propagate_cancel', 'description_picking',
             'product_packaging_id',
         ]
         if self.env['ir.config_parameter'].sudo().get_param('stock.merge_only_same_date'):
             fields.append('date')
+        if not self.env['ir.config_parameter'].sudo().get_param('stock.merge_ignore_date_deadline'):
+            fields.append('date_deadline')
         return fields
 
     @api.model
@@ -999,6 +1001,7 @@ class StockMove(models.Model):
         quants = self.env['stock.quant'].search([('product_id', '=', self.product_id.id),
                                                  ('lot_id', 'in', self.lot_ids.ids),
                                                  ('quantity', '!=', 0),
+                                                 ('location_id', '!=', self.location_id.id),# Exclude the source location
                                                  '|', ('location_id.usage', '=', 'customer'),
                                                       '&', ('company_id', '=', self.company_id.id),
                                                            ('location_id.usage', 'in', ('internal', 'transit'))])
@@ -1456,7 +1459,7 @@ class StockMove(models.Model):
         return self.env['stock.quant']._get_available_quantity(self.product_id, location_id, lot_id=lot_id, package_id=package_id, owner_id=owner_id, strict=strict, allow_negative=allow_negative)
 
     def _get_available_move_lines_in(self):
-        move_lines_in = self.move_orig_ids.filtered(lambda m: m.state == 'done').mapped('move_line_ids')
+        move_lines_in = self.move_orig_ids.move_dest_ids.move_orig_ids.filtered(lambda m: m.state == 'done').mapped('move_line_ids')
         keys_in_groupby = ['location_dest_id', 'lot_id', 'result_package_id', 'owner_id']
 
         def _keys_in_sorted(ml):

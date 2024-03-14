@@ -158,7 +158,7 @@ exports.PosModel = Backbone.Model.extend({
             if(this.config.product_load_background)
                 this.loadProductsBackground();
         }
-        if(this.config.partner_load_background )
+        if(this.config.limited_partners_loading && this.config.partner_load_background )
             this.loadPartnersBackground();
 
         if(this.config.use_proxy){
@@ -1321,7 +1321,7 @@ exports.PosModel = Backbone.Model.extend({
                                     },
                                 })
                                 .catch(() => {
-                                    reject({ code: 401, message: 'Backend Invoice', data: { order: order } });
+                                    reject({ code: 401, message: 'Backend Invoice', data: { order: order }, server_ids: server_ids });
                                 });
                         } else {
                             reject({ code: 401, message: 'Backend Invoice', data: { order: order } });
@@ -3940,6 +3940,8 @@ exports.Order = Backbone.Model.extend({
             const last_line = paymentlines ? paymentlines[paymentlines.length-1]: false;
             const last_line_is_cash = last_line ? last_line.payment_method.is_cash_count == true: false;
             if (!only_cash || (only_cash && last_line_is_cash)) {
+                var rounding_method = this.pos.cash_rounding[0].rounding_method;
+                var rounding = this.pos.cash_rounding[0].rounding;
                 var remaining = this.get_total_with_tax() - this.get_total_paid();
                 var total = round_pr(remaining, this.pos.cash_rounding[0].rounding);
                 var sign = remaining > 0 ? 1.0 : -1.0;
@@ -3950,19 +3952,19 @@ exports.Order = Backbone.Model.extend({
                 if (utils.float_is_zero(rounding_applied, this.pos.currency.decimals)){
                     // https://xkcd.com/217/
                     return 0;
-                } else if(Math.abs(this.get_total_with_tax()) < this.pos.cash_rounding[0].rounding) {
+                } else if(Math.abs(this.get_total_with_tax()) < rounding ) {
                     return 0;
-                } else if(this.pos.cash_rounding[0].rounding_method === "UP" && rounding_applied < 0 && remaining > 0) {
-                    rounding_applied += this.pos.cash_rounding[0].rounding;
+                } else if(rounding_method === "UP" && rounding_applied < 0 && remaining > 0) {
+                    rounding_applied += rounding;
                 }
-                else if(this.pos.cash_rounding[0].rounding_method === "UP" && rounding_applied > 0 && remaining < 0) {
-                    rounding_applied -= this.pos.cash_rounding[0].rounding;
+                else if(rounding_method === "UP" && rounding_applied > 0 && remaining < 0) {
+                    rounding_applied -= rounding;
                 }
-                else if(this.pos.cash_rounding[0].rounding_method === "DOWN" && rounding_applied > 0 && remaining > 0){
-                    rounding_applied -= this.pos.cash_rounding[0].rounding;
+                else if(rounding_method === "DOWN" && rounding_applied > 0 && remaining > 0){
+                    rounding_applied -= rounding;
                 }
-                else if(this.pos.cash_rounding[0].rounding_method === "DOWN" && rounding_applied < 0 && remaining < 0){
-                    rounding_applied += this.pos.cash_rounding[0].rounding;
+                else if(rounding_method === "DOWN" && rounding_applied < 0 && remaining < 0){
+                    rounding_applied += rounding;
                 }
                 return sign * rounding_applied;
             }

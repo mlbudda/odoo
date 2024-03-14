@@ -1904,7 +1904,7 @@ X[]
                         contentAfter: '<table><tbody><tr><td><p>[]<br></p></td><td><br></td><td><br></td></tr><tr><td><br></td><td><br></td><td><br></td></tr><tr><td><br></td><td><br></td><td><br></td></tr></tbody></table>',
                     });
                 });
-                it('should delete a h1 insdie a nested list immediately after insertion', async () => {
+                it('should delete a h1 inside a nested list immediately after insertion', async () => {
                     await testEditor(BasicEditor, {
                         contentBefore: '<ul><li>abc</li><li class="oe-nested"><ul><li>[]<br></li></ul></li></ul>',
                         stepFunction: async editor => {
@@ -2654,6 +2654,15 @@ X[]
                     await deleteBackward(editor);
                 },
                 contentAfter: `<p>a&nbsp;[]</p>`,
+            });
+        });
+        it('should transform the space node preceded by a styled element to &nbsp;', async () => {
+            await testEditor(BasicEditor, {
+                contentBefore: `<p><strong>ab</strong> [cd]</p>`,
+                stepFunction: async editor => {
+                    await insertText(editor, 'x');
+                },
+                contentAfter: `<p><strong>ab</strong>&nbsp;x[]</p>`,
             });
         });
     });
@@ -3528,6 +3537,25 @@ X[]
                 },
                 contentAfter: '<p>a http://test.com b <a href="http://test.com">http://test.com</a>&nbsp;[] c http://test.com d</p>',
             });
+            await testEditor(BasicEditor, {
+                contentBefore: '<p>http://test.com[]</p>',
+                stepFunction: async (editor) => {
+                    editor.testMode = false;
+                    const p = editor.editable.querySelector('p');
+                    // Simulate multiple text nodes in a p: <p>"http://test" ".com"</p>
+                    const firstTextNode = p.childNodes[0];
+                    const secondTextNode = firstTextNode.splitText(11); 
+                    const selection = document.getSelection();
+                    const anchorOffset = selection.anchorOffset;
+                    triggerEvent(editor.editable, 'keydown', {key: ' ', code: 'Space'});
+                    secondTextNode.textContent = ".com\u00a0";
+                    selection.extend(secondTextNode, anchorOffset + 1);
+                    selection.collapseToEnd();
+                    triggerEvent(editor.editable, 'input', {data: ' ', inputType: 'insertText' });
+                    triggerEvent(editor.editable, 'keyup', {key: ' ', code: 'Space'});
+                },
+                contentAfter: '<p><a href="http://test.com">http://test.com</a>&nbsp;[]</p>',
+            });
         });
         it('should not transform url after two space', async () => {
             await testEditor(BasicEditor, {
@@ -4180,6 +4208,96 @@ X[]
                 contentBefore: '<p>a[b<span class="a">c</span>d]e</p>',
                 stepFunction: editor => editor.execCommand('applyColor', 'rgb(255, 0, 0)', 'color'),
                 contentAfter: '<p>a<font style="color: rgb(255, 0, 0);">[b<span class="a">c</span>d]</font>e</p>',
+            });
+        });
+        it('should apply background color to a list of 3 items with font size', async () => {
+            await testEditor(BasicEditor, {
+                contentBefore: '<ul>' +
+                                    '<li>' +
+                                        '<span style="font-size: 36px;">' +
+                                            '[abc' +
+                                        '</span>' +
+                                    '</li>' +
+                                    '<li>' +
+                                        '<span style="font-size: 36px;">' +
+                                            'bcd' +
+                                        '</span>' +
+                                    '</li>' +
+                                    '<li>' +
+                                        '<span style="font-size: 36px;">' +
+                                            'cde]' +
+                                        '</span>' +
+                                    '</li>' +
+                                '</ul>',
+                stepFunction: editor => editor.execCommand('applyColor', 'rgb(255, 0, 0)', 'backgroundColor'),
+                contentAfter: '<ul>' +
+                                    '<li>' +
+                                        '<span style="font-size: 36px;">' +
+                                            '<font style="background-color: rgb(255, 0, 0);">' +
+                                                '[abc' +
+                                            '</font>' +
+                                        '</span>' +
+                                    '</li>' +
+                                    '<li>' +
+                                        '<span style="font-size: 36px;">' +
+                                            '<font style="background-color: rgb(255, 0, 0);">' +
+                                                'bcd' +
+                                            '</font>' +
+                                        '</span>' +
+                                    '</li>' +
+                                    '<li>' +
+                                        '<span style="font-size: 36px;">' +
+                                            '<font style="background-color: rgb(255, 0, 0);">' +
+                                                'cde]' +
+                                            '</font>' +
+                                        '</span>' +
+                                    '</li>' +
+                                '</ul>',
+            });
+        });
+        it('should apply background color to a list of 3 links', async () => {
+            await testEditor(BasicEditor, {
+                contentBefore: '<ul>' +
+                                    '<li>' +
+                                        '<a href="#" >' +
+                                            '[abc' +
+                                        '</a>' +
+                                    '</li>' +
+                                    '<li>' +
+                                        '<a href="#" >' +
+                                            'bcd' +
+                                        '</a>' +
+                                    '</li>' +
+                                    '<li>' +
+                                        '<a href="#" >' +
+                                            'cde]' +
+                                        '</a>' +
+                                    '</li>' +
+                                '</ul>',
+                stepFunction: editor => editor.execCommand('applyColor', 'rgb(255, 0, 0)', 'backgroundColor'),
+                contentAfter: '<ul>' +
+                                    '<li>' +
+                                        '<a href="#">' +
+                                            '<font style="background-color: rgb(255, 0, 0);">' +
+                                                '[abc' +
+                                            '</font>' +
+                                        '</a>' +
+                                    '</li>' +
+                                    '<li>' +
+                                        '<a href="#">' +
+                                            '<font style="background-color: rgb(255, 0, 0);">' +
+                                                'bcd' +
+                                            '</font>' +
+                                        '</a>' +
+                                    '</li>' +
+                                    '<li>' +
+                                        '<a href="#">' +
+                                            '<font style="background-color: rgb(255, 0, 0);">' +
+                                                'cde]' +
+                                            '</font>' +
+                                        '</a>' +
+                                    '</li>' +
+                                '</ul>',
             });
         });
         it('should distribute color to texts and to button separately', async () => {

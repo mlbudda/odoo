@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
+from lxml import etree
+
 from odoo import models, _
 from odoo.tools import html2plaintext, cleanup_xml_node
-from lxml import etree
 
 
 class AccountEdiXmlUBL20(models.AbstractModel):
@@ -290,7 +291,7 @@ class AccountEdiXmlUBL20(models.AbstractModel):
             'currency_dp': line.currency_id.decimal_places,
 
             # The price of an item, exclusive of VAT, after subtracting item price discount.
-            'price_amount': gross_price_unit,
+            'price_amount': round(gross_price_unit, 10),
             'product_price_dp': self.env['decimal.precision'].precision_get('Product Price'),
 
             # The number of item units to which the price applies.
@@ -312,7 +313,7 @@ class AccountEdiXmlUBL20(models.AbstractModel):
         total_fixed_tax_amount = sum([
             vals['amount']
             for vals in allowance_charge_vals_list
-            if vals['allowance_charge_reason_code'] == 'AEO'
+            if vals.get('charge_indicator') == 'true'
         ])
         return {
             'currency': line.currency_id,
@@ -499,7 +500,7 @@ class AccountEdiXmlUBL20(models.AbstractModel):
         # ==== partner_id ====
 
         role = "Customer" if invoice_form.journal_id.type == 'sale' else "Supplier"
-        vat = self._find_value(f'//cac:Accounting{role}Party/cac:Party//cbc:CompanyID', tree)
+        vat = self._find_value(f'//cac:Accounting{role}Party/cac:Party//cbc:CompanyID[string-length(text()) > 5]', tree)
         phone = self._find_value(f'//cac:Accounting{role}Party/cac:Party//cbc:Telephone', tree)
         mail = self._find_value(f'//cac:Accounting{role}Party/cac:Party//cbc:ElectronicMail', tree)
         name = self._find_value(f'//cac:Accounting{role}Party/cac:Party//cbc:Name', tree)
@@ -520,6 +521,14 @@ class AccountEdiXmlUBL20(models.AbstractModel):
             else:
                 logs.append(_("Could not retrieve currency: %s. Did you enable the multicurrency option "
                               "and activate the currency ?", currency_code_node.text))
+
+        # ==== Bank Details ====
+
+        bank_detail_nodes = tree.findall('.//{*}PaymentMeans')
+        bank_details = [bank_detail_node.findtext('{*}PayeeFinancialAccount/{*}ID') for bank_detail_node in bank_detail_nodes]
+
+        if bank_details:
+            self._import_retrieve_and_fill_partner_bank_details(invoice_form, bank_details=bank_details)
 
         # ==== Reference ====
 

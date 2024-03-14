@@ -228,6 +228,8 @@ odoo.define('point_of_sale.PaymentScreen', function (require) {
                     syncedOrderBackendIds = await this.env.pos.push_single_order(this.currentOrder);
                 }
             } catch (error) {
+                // unblock the UI before showing the error popup
+                this.env.services.ui.unblock();
                 if (error.code == 700 || error.code == 701)
                     this.error = true;
 
@@ -237,6 +239,9 @@ odoo.define('point_of_sale.PaymentScreen', function (require) {
                     // then it is an error when invoicing. Besides, _handlePushOrderError was
                     // introduce to handle invoicing error logic.
                     await this._handlePushOrderError(error);
+                    if ('server_ids' in error) {
+                        syncedOrderBackendIds = error.server_ids;
+                    }
                 } else {
                     // We don't block for connection error. But we rethrow for any other errors.
                     if (isConnectionError(error)) {

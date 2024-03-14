@@ -678,6 +678,10 @@ class AccountJournal(models.Model):
         if journal.type == 'bank' and not journal.bank_account_id and vals.get('bank_acc_number'):
             journal.set_bank_account(vals.get('bank_acc_number'), vals.get('bank_id'))
 
+        # Create the secure_sequence_id if necessary
+        if journal.restrict_mode_hash_table and not journal.secure_sequence_id:
+            journal._create_secure_sequence(['secure_sequence_id'])
+
         return journal
 
     def set_bank_account(self, acc_number, bank_id=None):
@@ -972,3 +976,11 @@ class AccountJournal(models.Model):
         if self.type not in journal_types:
             return False
         return True
+
+    def _process_reference_for_sale_order(self, order_reference):
+        '''
+        returns the order reference to be used for the payment.
+        Hook to be overriden: see l10n_ch for an example.
+        '''
+        self.ensure_one()
+        return order_reference
